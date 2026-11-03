@@ -1,0 +1,140 @@
+
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Nansé Beauté</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0705;--ink:#f3e6d6;--gold:#d9a766;--mut:#a8927c;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 15px Jost,system-ui,sans-serif}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;z-index:5}
+.logo{font:600 21px 'Cormorant Garamond',serif;letter-spacing:.38em;color:var(--gold)}
+button{font:500 12px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;background:var(--gold);color:#1a0f0a;border:0;padding:12px 20px;cursor:pointer}
+button.o{background:none;color:var(--gold);border:1px solid var(--gold)}
+#hero{position:fixed;left:0;right:0;top:15%;text-align:center;z-index:2;pointer-events:none}
+#hero h1{font:500 clamp(34px,7vw,76px) 'Cormorant Garamond',serif;letter-spacing:.2em;margin:0;color:#f0c98f}
+#hero p{letter-spacing:.35em;font-size:11px;color:var(--mut);text-transform:uppercase}
+#panel{position:fixed;left:28px;bottom:28px;width:360px;z-index:4;background:rgba(13,7,5,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(217,167,102,.28);padding:22px}
+#panel h2{font:600 30px/1.1 'Cormorant Garamond',serif;margin:6px 0}
+.k{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mut)}
+#panel p{margin:6px 0;color:#d8c6b2;line-height:1.5}
+#sw{display:flex;gap:12px;margin:12px 0 16px;flex-wrap:wrap}
+.sw{width:24px;height:24px;border-radius:50%;border:1px solid #fff4;cursor:pointer;display:block}
+.sw.on{outline:1.5px solid var(--gold);outline-offset:3px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#pp{font:600 24px 'Cormorant Garamond',serif;color:#f0c98f}
+#rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;gap:7px}
+#rail i{width:6px;height:6px;border-radius:50%;background:#fff3;cursor:pointer}#rail i.on{background:var(--gold);transform:scale(1.5)}
+#cart{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:#140c09;z-index:9;transform:translateX(100%);transition:transform .45s;overflow:auto;padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px));border-left:1px solid rgba(217,167,102,.3)}
+#cart.open{transform:none}
+#cart h3{font:600 28px 'Cormorant Garamond',serif;margin:0 0 14px;color:#f0c98f}
+.it{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #fff1}.it div{flex:1}.it small{color:var(--mut)}
+.it button{padding:4px 9px;background:none;color:var(--gold);border:1px solid #fff3}
+input[type=text],input[type=tel],textarea{width:100%;box-sizing:border-box;background:#0d0705;color:var(--ink);border:1px solid #fff3;padding:11px;margin:5px 0;font:inherit}
+label{display:block;margin:8px 0;font-size:14px}
+.tot{display:flex;justify-content:space-between;margin:6px 0}.tot.b{font:600 24px 'Cormorant Garamond',serif;color:#f0c98f}
+@media(max-width:640px){#panel{left:10px;right:10px;width:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:16px}#panel p#pd{display:none}header{padding:14px}}
+</style></head><body>
+<canvas id="c"></canvas>
+<header><span class="logo">NANSÉ BEAUTÉ</span><button class="o" id="cb">Bag (<span id="cc">0</span>)</button></header>
+<div id="hero"><h1>NANSÉ</h1><p>Your beauty. Your signature.</p><p>Scroll to walk the room</p></div>
+<div id="panel"><div class="k" id="pk"></div><h2 id="pn"></h2><p class="k" id="ps"></p><p id="pd"></p><div class="k">Shade — <span id="sn"></span></div><div id="sw"></div><div class="row"><b id="pp"></b><button id="add">Add to bag</button></div></div>
+<div id="rail"></div><div id="sp"></div>
+<aside id="cart"><div class="row"><h3>Your bag</h3><button class="o" id="cx">Close</button></div><div id="ci"></div><div id="co">
+<label><input type="radio" name="d" value="d" checked> Delivery — Jimeta Gimba Road, Yola · ₦15,000</label>
+<label><input type="radio" name="d" value="p"> Boutique pickup · Free</label>
+<input type="text" id="nm" placeholder="Full name"><input type="tel" id="ph" placeholder="Phone number">
+<input type="text" id="ad" value="Jimeta Gimba Road, Yola, Adamawa State"><textarea id="nt" rows="2" placeholder="Note (optional)"></textarea>
+<div class="tot"><span>Subtotal</span><span id="t1"></span></div><div class="tot"><span>Delivery</span><span id="t2"></span></div><div class="tot b"><span>Total</span><span id="t3"></span></div>
+<button id="po" style="width:100%;margin-top:12px">Place order</button></div></aside>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const P=[
+['Lip Gloss · Cacao','gloss','8 ml · Hydrating · Glossy',68000,'Cocoa-shimmer gloss in a faceted glass flask with a gold cap.',[['Cacao','#7a4a36'],['Truffle','#4a2a20'],['Praline','#a86a4a']]],
+['Lip Gloss · Brillance Intense','gloss','7 ml · Brillance intense',66000,'High-shine rosewood gloss with a soft doe-foot wand.',[['Rosewood','#b9554f'],['Dusty Rose','#c98a86'],['Terracotta','#a6532f']]],
+['Lip Gloss · Pêche','gloss','8 ml · Peach shimmer',66000,'A sheer, sun-warmed peach shimmer for glass-like lips.',[['Pêche','#e58a74'],['Apricot','#e9a36f'],['Rosé Pêche','#e49aa0']]],
+['Signature Lipstick','lipstick','3.5 g · Creamy satin',78000,'Weighty gold bullet, a satin finish and the Nansé signature on the base.',[['Nude Rose','#b5706a'],['Chocolat','#6b3a2e'],['Framboise','#9c2440'],['Pêche Nude','#d98a78']]],
+['Lumière Skin Foundation','bottle','30 ml · Long wear · Natural finish',145000,'Skin-like, buildable coverage that stays true for the whole day.',[['Porcelain','#e9c9a8'],['Sand','#d8ac80'],['Honey','#c8935f'],['Caramel','#a8703f'],['Mocha','#7a4a2c'],['Espresso','#4d2c1b']]],
+['Radiant Skin Tint SPF 30','bottle','30 ml · Hydrate · Smooth · Glow',120000,'A dewy, light tint with SPF 30 for an effortless glow.',[['Light','#e7c4a0'],['Medium','#c99565'],['Tan','#a8703f'],['Deep','#6e3f26']]],
+['Velvet Matte Primer','tube','30 ml · Smooth · Blur · Long lasting',92000,'Blurs and smooths for a velvet matte canvas.',[['Rosé Veil','#d9958a'],['Translucent','#ead7c8']]],
+['Soft Blush Compact','compact','Mirror compact · Silky powder',95000,'Gold mirrored compact holding a silky, buildable blush.',[['Rose','#d7706f'],['Pêche','#e9967a'],['Berry','#a84a5a'],['Bronze Glow','#b9724e']]],
+['Soft Blush · Pêche','jar','6 g · Cream-to-powder',72000,'A whipped peach cream blush under a polished gold lid.',[['Pêche','#e9907a'],['Rosé','#dc8a96'],['Coral','#e2704f']]],
+['Radiant Moisture Cream','jar','50 ml · Hydrate · Nourish · Glow',185000,'Rich, luminous moisture in a heavy glass jar. One universal shade.',[['Pearl Rose','#f0cfc4']]],
+['Setting Spray','spray','100 ml · Hydrating · Radiant finish',88000,'A fine rosé mist that locks makeup in with a radiant finish.',[['Rosé Mist','#f1c4c4']]],
+['Volume & Length Mascara','mascara','8 ml · Volume & length',64000,'Lash-lifting formula with a tapered brush.',[['Noir','#0d0d0d'],['Brun','#3a2418']]],
+['Lip Liner','pencil','1.2 g · Precise · Creamy',38000,'Creamy, long-wear liner for a sculpted outline.',[['Plum','#6d2c3e'],['Nude','#b88473'],['Cinnamon','#9a4f35'],['Rosewood','#b05560']]],
+['Brow Designer','pencil','1.1 g · With brow comb',32000,'Defining brow pencil with a spoolie brush.',[['Blonde','#a88a62'],['Brown','#6a4a3a'],['Dark Brown','#3a2a22']]],
+['Sun Bronzer','compact','Baked bronzer · Warm glow',110000,'Sun-kissed bronzing powder in a warm cocoa compact.',[['Tan','#b0764a'],['Deep','#8a5434'],['Espresso','#5a3422']]],
+['Bow Compact Mirror','mirror','Pocket mirror · Pink bows',45000,'A pocket mirror with a printed bow pattern.',[['Blush Pink','#f1b8c0'],['Ballet','#f4d4d4']]],
+['Travel Vanity Case','case','Zip case · Velvet lined',85000,'Zipped, velvet-lined case for small treasures on the move.',[['Blush','#e8b0a8'],['Nude','#d8b8a2']]],
+['Scalp Massager','massager','Soft silicone · Suction handle',28000,'Soft silicone bristles for a gentle scalp ritual.',[['Mist Blue','#9fb8e0'],['Sage','#a8cfa8'],['Rose','#e4a8a8'],['Sand','#d4b894']]],
+['Cloud Spa Headband Set','band','Headband + 2 wristbands',36000,'Plush terry headband with matching wristbands for skincare time.',[['Pink','#f1b8c4'],['Cream','#f0e0d0']]]
+],N=P.length,$=s=>document.querySelector(s),fmt=n=>'₦'+n.toLocaleString('en-NG');
+let cur=-1,cart=[],sel=P.map(()=>0),prods=[];
+const M=(c,m=0,r=.5,o={})=>new THREE.MeshStandardMaterial({color:c,metalness:m,roughness:r,...o});
+const gold=M(0xd9a766,1,.18),glass=M(0xffffff,0,.05,{transparent:true,opacity:.22});
+const cyl=(r,h,m,y=0,s=48,r2=r)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(r2,r,h,s),m);o.position.y=y;return o};
+const box=(w,h,d,m,y=0,x=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);return o};
+function lab(t,s,w,h){const c=document.createElement('canvas');c.width=512;c.height=Math.round(512*h/w);const x=c.getContext('2d');x.fillStyle='#e8c48c';x.textAlign='center';x.font='600 70px "Cormorant Garamond",serif';x.fillText(t,256,c.height/2);x.font='500 28px Jost,sans-serif';x.fillText(s,256,c.height/2+46);return new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true}))}
+const L=(w,h,z,y=0,s='BEAUTÉ')=>{const m=lab('NANSÉ',s,w,h);m.position.set(0,y,z);return m};
+const flat=(w,h,y)=>{const m=L(w,h,0,y);m.rotation.x=-Math.PI/2;return m};
+const G=(...a)=>{const g=new THREE.Group();g.add(...a);return g};
+const B={
+gloss:T=>{const g=G(box(.55,1.1,.4,T),box(.62,1.16,.47,glass),box(.6,.7,.46,gold,.9),L(.42,.5,.235,-.05));const w=G(cyl(.03,1.1,M(0xf3d9d2,0,.3)),cyl(.09,.3,T,.65,16,.07));w.position.set(.8,.1,0);w.rotation.z=-.15;g.add(w);return g},
+lipstick:T=>G(cyl(.3,.7,gold,-.5),cyl(.26,.5,gold,.1),cyl(.2,.6,T,.65),cyl(.2,.22,T,1.06,32,.08),L(.4,.4,.31,-.5,'')),
+bottle:T=>G(cyl(.4,1.3,T),cyl(.43,1.34,glass),cyl(.4,.65,gold,1),L(.62,.4,.44,-.1)),
+tube:T=>{const b=cyl(.38,1.5,T,.1);b.scale.z=.4;return G(b,cyl(.3,.4,gold,-.85,32),box(.76,.12,.07,T,.9),L(.6,.4,.16,.1,'VELVET MATTE PRIMER'))},
+compact:T=>{const p=G(box(1.5,.1,1.5,gold,0,0,.75),box(1.3,.02,1.3,M(0xffffff,1,.03),-.06,0,.75));p.position.set(0,.1,-.75);p.rotation.x=-1.9;const g=G(box(1.5,.2,1.5,gold),box(1.28,.06,1.28,T,.12),flat(.9,.45,.17),p);g.rotation.x=.5;return g},
+jar:T=>{const g=G(cyl(.8,.55,glass),cyl(.76,.5,T),cyl(.82,.22,gold,.75),L(.9,.45,.81,-.02,'RADIANT'));g.rotation.x=.35;return g},
+spray:T=>{T.transparent=true;T.opacity=.8;return G(cyl(.38,1.2,T,-.1),cyl(.2,.3,gold,.65),cyl(.1,.25,gold,.9),cyl(.28,.8,glass,1.05),L(.6,.4,.385,-.1,'SETTING SPRAY'))},
+mascara:T=>{const k=M(0x0a0a0a,.5,.25),w=G(cyl(.025,1.3,k),cyl(.1,.5,T,.9,16,.08));w.position.x=.6;w.rotation.z=-.2;return G(cyl(.2,1.5,k),cyl(.205,.1,gold,.5),L(.36,.4,.205,-.2,'MASCARA'),w)},
+pencil:T=>{const g=G(cyl(.07,1.9,T),cyl(.07,.25,M(0xe5c9a3,0,.7),1.07,16,.01),cyl(.073,.12,gold,-.9));g.rotation.z=.6;g.scale.setScalar(1.3);return g},
+mirror:T=>{const s=M(0xe6e6e6,1,.04),p=G(box(1.3,1.3,.08,T,.65),box(1.1,1.1,.02,s,.65,0,.05));p.position.y=.65;p.rotation.x=-.5;return G(box(1.3,1.3,.1,T),box(1.1,1.1,.02,s,0,0,.06),p)},
+case:T=>{const g=G(box(1.4,.5,1.4,T,-.1),box(1.4,.38,1.4,T,.28),box(1.42,.04,1.42,gold,.1),flat(.8,.4,.48));g.rotation.x=.45;return g},
+massager:T=>{const g=G(cyl(.6,.3,T,0,40,.5),cyl(.12,.5,T,-.35),cyl(.3,.06,T,-.6));for(let i=0;i<19;i++){const r=i?(i<8?.22:.42):0,a=i<8?i*.9:(i-8)*.57,c=cyl(.07,.35,T,.3,12,.01);c.position.x=Math.cos(a)*r;c.position.z=Math.sin(a)*r;g.add(c)}g.rotation.x=.3;return g},
+band:T=>{const a=new THREE.Mesh(new THREE.TorusGeometry(.8,.2,16,48,Math.PI*1.2),T);a.rotation.z=Math.PI/2-Math.PI*.6;const g=G(a);[-.55,.55].forEach(x=>{const w=new THREE.Mesh(new THREE.TorusGeometry(.28,.13,12,32),T);w.position.set(x,-1,0);w.rotation.x=1.2;g.add(w)});return g}};
+const c=$('#c'),R=new THREE.WebGLRenderer({canvas:c,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.15;
+const S=new THREE.Scene();S.background=new THREE.Color(0x0d0705);S.fog=new THREE.Fog(0x0d0705,9,32);
+const cam=new THREE.PerspectiveCamera(40,1,.1,60);
+const ec=document.createElement('canvas');ec.width=512;ec.height=256;const ex=ec.getContext('2d');ex.fillStyle='#1a0f0a';ex.fillRect(0,0,512,256);ex.fillStyle='#ffe2b8';for(let i=0;i<8;i++)ex.fillRect(i*64+10,40,16,150);ex.fillStyle='#fff';ex.fillRect(300,10,120,50);
+const et=new THREE.CanvasTexture(ec);et.mapping=THREE.EquirectangularReflectionMapping;S.environment=new THREE.PMREMGenerator(R).fromEquirectangular(et).texture;
+const W=N*6+16,MX=W/2-6;
+const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,30),M(0x1c120d,.2,.35));fl.rotation.x=-Math.PI/2;fl.position.x=MX;fl.receiveShadow=true;S.add(fl);
+const wl=new THREE.Mesh(new THREE.PlaneGeometry(W,12),M(0x140b07,0,.9));wl.position.set(MX,6,-6);wl.receiveShadow=true;S.add(wl);
+for(let x=-6;x<W-6;x+=.6){const s=box(.3,8,.55,M(0x3a2418,0,.6),4,x,-5.7);s.castShadow=s.receiveShadow=true;S.add(s)}
+S.add(box(W,.16,.1,gold,.1,MX,-5.4));
+S.add(new THREE.HemisphereLight(0xffe6c8,0x1a0f0a,.35));
+const sp=new THREE.SpotLight(0xffd9a8,2.4,34,.6,.6);sp.castShadow=true;sp.shadow.mapSize.set(2048,2048);sp.shadow.bias=-.0005;S.add(sp,sp.target);
+const rim=new THREE.PointLight(0xffb070,.8,16);rim.position.set(0,3,-3);S.add(rim);
+function build(){P.forEach((p,k)=>{const T=M(p[5][0][1],.25,.28),g=B[p[1]](T),h=G(g);h.position.set(k*6,1.75,0);h.traverse(o=>{if(o.isMesh)o.castShadow=true});S.add(h);
+const pl=cyl(.95,.5,M(0xcdb79a,0,.8),.25);pl.position.x=k*6;pl.receiveShadow=true;S.add(pl);prods.push({h,T})});
+const r=$('#rail');P.forEach((_,i)=>{const d=document.createElement('i');d.onclick=()=>scrollTo({top:i/(N-1)*(document.documentElement.scrollHeight-innerHeight),behavior:'smooth'});r.append(d)});
+$('#sp').style.height=(N*80+100)+'vh';show(0)}
+function show(i){cur=i;const p=P[i];$('#pk').textContent=String(i+1).padStart(2,'0')+' / '+N;$('#pn').textContent=p[0];$('#ps').textContent=p[2];$('#pd').textContent=p[4];$('#pp').textContent=fmt(p[3]);$('#sn').textContent=p[5][sel[i]][0];
+$('#sw').innerHTML=p[5].map((s,j)=>`<i class="sw ${j==sel[i]?'on':''}" style="background:${s[1]}" title="${s[0]}" data-j="${j}"></i>`).join('');
+document.querySelectorAll('#rail i').forEach((d,j)=>d.classList.toggle('on',j==i))}
+$('#sw').onclick=e=>{const j=e.target.dataset.j;if(j==null)return;sel[cur]=+j;prods[cur].T.color.set(P[cur][5][j][1]);show(cur)};
+$('#add').onclick=()=>{const k=cart.find(x=>x.i==cur&&x.j==sel[cur]);k?k.q++:cart.push({i:cur,j:sel[cur],q:1});rc();$('#cart').classList.add('open')};
+$('#cb').onclick=()=>$('#cart').classList.add('open');$('#cx').onclick=()=>$('#cart').classList.remove('open');
+document.querySelectorAll('[name=d]').forEach(r=>r.onchange=rc);
+function rc(){$('#cc').textContent=cart.reduce((a,b)=>a+b.q,0);
+$('#ci').innerHTML=cart.length?cart.map((x,n)=>{const p=P[x.i],s=p[5][x.j];return`<div class="it"><i class="sw" style="background:${s[1]}"></i><div>${p[0]}<br><small>Shade: ${s[0]} · ${fmt(p[3])}</small></div><button data-a="-" data-n="${n}">−</button>${x.q}<button data-a="+" data-n="${n}">+</button></div>`}).join(''):'<p class="k">Your bag is empty</p>';
+const sub=cart.reduce((a,x)=>a+P[x.i][3]*x.q,0),dl=document.querySelector('[name=d]:checked').value=='d',fee=cart.length&&dl?15000:0;
+$('#t1').textContent=fmt(sub);$('#t2').textContent=fee?fmt(fee):'Free';$('#t3').textContent=fmt(sub+fee);$('#ad').style.display=dl?'block':'none'}
+$('#ci').onclick=e=>{const n=e.target.dataset.n;if(n==null)return;const x=cart[n];x.q+=e.target.dataset.a=='+'?1:-1;if(x.q<1)cart.splice(n,1);rc()};
+$('#po').onclick=()=>{if(!cart.length)return alert('Your bag is empty.');if(!$('#nm').value.trim()||!$('#ph').value.trim())return alert('Please add your name and phone number.');
+const dl=document.querySelector('[name=d]:checked').value=='d';$('#cart').innerHTML=`<h3>Thank you, ${$('#nm').value.trim()}</h3><p>Order NB-${Math.floor(Math.random()*90000+10000)} received. We will call ${$('#ph').value.trim()} to confirm ${dl?'delivery to '+$('#ad').value:'your boutique pickup'}.</p><button id="cl">Continue</button>`;cart=[];$('#cc').textContent=0;$('#cl').onclick=()=>location.reload()};
+function rs(){R.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()}addEventListener('resize',rs);rs();
+let sc=0,tm=0,last=performance.now();
+function loop(now){const dt=Math.min((now-last)/1000,.05);last=now;tm+=dt;
+const max=Math.max(1,document.documentElement.scrollHeight-innerHeight),p=Math.min(1,Math.max(0,scrollY/max));sc+=(p-sc)*Math.min(1,dt*4);
+const t=sc*(N-1),x=t*6,a=.9*Math.sin(t*2.2),asp=cam.aspect,r=(4.8+.6*Math.sin(t*3.1))*(asp<1?1.7:1),y=1.9+.5*Math.sin(t*1.7);
+cam.position.set(x+Math.sin(a)*r,y,Math.cos(a)*r);cam.lookAt(x,asp<1?1.15:1.7,0);
+sp.position.set(x-6,7,4);sp.target.position.set(x,1.5,0);rim.position.x=x+3;
+prods.forEach((o,k)=>{o.h.rotation.y+=dt*.6;o.h.position.y=1.75+Math.sin(tm*1.2+k)*.1});
+const i=Math.round(t);if(i!==cur)show(i);
+$('#hero').style.opacity=Math.max(0,1-scrollY/(innerHeight*.45));
+R.render(S,cam);requestAnimationFrame(loop)}
+Promise.all([document.fonts.load('600 70px "Cormorant Garamond"'),document.fonts.load('500 28px Jost')]).catch(()=>{}).then(()=>{build();rc();requestAnimationFrame(loop)});
+</script></body></html>
+```
